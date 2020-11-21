@@ -1,0 +1,90 @@
+create table Library
+(
+	Library_id int not null,
+	Library_name varchar(265) not null,
+	Library_location varchar(265) not null,
+	primary key(Library_id)
+)
+
+create table Storage_Library
+(
+	Storage_id int not null,
+	Rooms int not null,
+	Shelves varchar(10) not null,
+	Сomposition_type char(100) not null,
+	Library_id int not null,
+	primary key (Storage_id),
+	foreign key (Library_id)
+		references Library (Library_id)
+)
+
+create table Authors
+(
+	Author_id int not null,
+	Author_full_name char(100) not null,
+	Author_country varchar(100) not null,
+	primary key(Author_id)
+)
+
+create table Editions
+(
+	Edition_id int not null,
+	Edition_name varchar(265) not null,
+	Edition_type char(100) not null,
+	Author_id int not null,
+	Author_full_name char(100) not null,
+	Edition_created date not null,
+	Library_id int not null,
+	primary key (Edition_id),
+	foreign key (Author_id)
+		references Authors (Author_id),
+	foreign key (Library_id)
+		references Library (Library_id)
+)
+
+create table Timetable
+(
+	Week char(100) not null,
+	Time_open varchar(10) not null,
+	Time_close varchar(10) not null,
+	primary key (Week)
+)
+
+create table Readers
+(
+	Reader_id int not null,
+	Reader_full_name char(100) not null,
+	Reader_phone_number int not null,
+	Reader_address varchar(265) not null,
+	primary key (Reader_id)
+)
+
+create table Extraditions
+(
+	Extradition_id int not null,
+	Edition_id int not null,
+	Edition_name varchar(265) not null,
+	Reader_id int not null,
+	Reader_full_name char(100) not null,
+	Got_Edition date not null,
+	Return_Editions date not null,
+	Week char(100) not null,
+	primary key (Extradition_id),
+	foreign key (Edition_id) references Editions (Edition_id),
+	foreign key (Reader_id) references Readers (Reader_id),
+	foreign key (Week) references Timetable (Week)
+)
+
+create table Reading_rooms
+(
+	Reading_room_id int not null,
+	Reader_id int not null,
+	Reader_full_name char(100) not null,
+	Edition_id int not null,
+	Edition_name varchar(265) not null,
+	primary key (Reading_room_id),
+	foreign key (Reader_id)
+		references Readers (Reader_id),
+	foreign key (Edition_id)
+		references Editions (Edition_id)
+)
